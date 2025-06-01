@@ -1,0 +1,26 @@
+$themes: (
+  light: (
+    background: #ffffff,
+    text: #333,
+    board-border: #d3d6da,
+    correct: #6aaa64,
+    present: #c9b458,
+    absent: #787c7e,
+    key-background: #d3d6da,
+    key-hover: #c0c4c8,
+    enter-background: #4caf50,
+    enter-hover: #45a049,
+  ),
+  dark: (
+    background: #1a1a1a,
+    text: #e0e0e0,
+    board-border: #4a4e51,
+    correct: #538d4e,
+    present: #b59f3b,
+    absent: #3a3a3c,
+    key-background: #818384,
+    key-hover: #6b6d70,
+    enter-background: #538d4e,
+    enter-hover: #457a44,
+  ),
+);

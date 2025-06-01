@@ -1,0 +1,550 @@
+@use "sass:map";
+@use "variables" as v;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s,
+    transform 0.3s;
+}
+
+:root {
+  font-family: "Arial", "Helvetica", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+/* Стили для приложения */
+.app {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+}
+
+/* Стили для меню */
+.header-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.logo span {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: map.get(map.get(v.$themes, "light"), "text");
+}
+
+.menu {
+  display: flex;
+  gap: 15px;
+}
+
+.menu button {
+  padding: 8px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  transition: background-color 0.3s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+body.light {
+  background-color: map.get(map.get(v.$themes, "light"), "background");
+  color: map.get(map.get(v.$themes, "light"), "text");
+
+  .menu button {
+    color: #333;
+
+    &:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.1);
+    }
+  }
+
+  .logo span {
+    color: map.get(map.get(v.$themes, "light"), "text");
+  }
+
+  .letter-box {
+    border: 2px solid map.get(map.get(v.$themes, "light"), "board-border");
+
+    &.correct {
+      background-color: map.get(map.get(v.$themes, "light"), "correct");
+      color: white;
+      border-color: map.get(map.get(v.$themes, "light"), "correct");
+    }
+
+    &.present {
+      background-color: map.get(map.get(v.$themes, "light"), "present");
+      color: white;
+      border-color: map.get(map.get(v.$themes, "light"), "present");
+    }
+
+    &.absent {
+      background-color: map.get(map.get(v.$themes, "light"), "absent");
+      color: white;
+      border-color: map.get(map.get(v.$themes, "light"), "absent");
+    }
+  }
+
+  .word-row.current .letter-box {
+    border-color: map.get(map.get(v.$themes, "light"), "board-border");
+  }
+
+  .message {
+    background-color: map.get(map.get(v.$themes, "light"), "background");
+  }
+
+  .new-game-btn {
+    background-color: map.get(map.get(v.$themes, "light"), "enter-background");
+    color: white;
+
+    &:hover {
+      background-color: map.get(map.get(v.$themes, "light"), "enter-hover");
+    }
+  }
+
+  .key {
+    background-color: map.get(map.get(v.$themes, "light"), "key-background");
+    color: map.get(map.get(v.$themes, "light"), "text");
+
+    &:hover {
+      background-color: map.get(map.get(v.$themes, "light"), "key-hover");
+    }
+
+    img {
+      filter: none; // Чёрный цвет остаётся в светлой теме
+    }
+  }
+}
+
+body.dark {
+  background-color: map.get(map.get(v.$themes, "dark"), "background");
+  color: map.get(map.get(v.$themes, "dark"), "text");
+
+  .menu button {
+    color: #e0e0e0;
+
+    &:hover {
+      background-color: #444;
+      transform: scale(1.1);
+    }
+  }
+
+  .logo span {
+    color: map.get(map.get(v.$themes, "dark"), "text");
+  }
+
+  .letter-box {
+    border: 2px solid map.get(map.get(v.$themes, "dark"), "board-border");
+
+    &.correct {
+      background-color: map.get(map.get(v.$themes, "dark"), "correct");
+      color: white;
+      border-color: map.get(map.get(v.$themes, "dark"), "correct");
+    }
+
+    &.present {
+      background-color: map.get(map.get(v.$themes, "dark"), "present");
+      color: white;
+      border-color: map.get(map.get(v.$themes, "dark"), "present");
+    }
+
+    &.absent {
+      background-color: map.get(map.get(v.$themes, "dark"), "absent");
+      color: white;
+      border-color: map.get(map.get(v.$themes, "dark"), "absent");
+    }
+  }
+
+  .word-row.current .letter-box {
+    border-color: map.get(map.get(v.$themes, "dark"), "board-border");
+  }
+
+  .message {
+    background-color: map.get(map.get(v.$themes, "dark"), "background");
+  }
+
+  .new-game-btn {
+    background-color: map.get(map.get(v.$themes, "dark"), "enter-background");
+    color: white;
+
+    &:hover {
+      background-color: map.get(map.get(v.$themes, "dark"), "enter-hover");
+    }
+  }
+
+  .key {
+    background-color: map.get(map.get(v.$themes, "dark"), "key-background");
+    color: map.get(map.get(v.$themes, "dark"), "text");
+
+    &:hover {
+      background-color: map.get(map.get(v.$themes, "dark"), "key-hover");
+    }
+
+    img {
+      filter: invert(1); // Инвертируем цвет (чёрный становится белым)
+    }
+  }
+}
+
+/* Стили для игровой доски */
+.game-board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.word-row {
+  display: flex;
+  gap: 5px;
+}
+
+.letter-box {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+/* Анимации для клеток */
+@keyframes pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.letter-box:not(:empty) {
+  animation: pop 0.25s ease-in-out;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 500px) {
+  .letter-box {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .letter-box {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Стили для сообщений */
+.message {
+  margin: 15px 0;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  min-height: 40px;
+  width: 100%;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Стили для кнопки новой игры */
+.new-game-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+/* Стили для клавиатуры */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+  max-width: 100%;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.key {
+  width: 40px;
+  height: 50px;
+  border: 1px solid #b0b0b0;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+/* Стили для иконок */
+.key img {
+  height: 24px;
+  width: 24px;
+  margin-left: 4px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 500px) {
+  .key {
+    width: 35px;
+    height: 45px;
+    font-size: 1rem;
+
+    img {
+      height: 20px;
+      width: 20px;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .key {
+    width: 30px;
+    height: 40px;
+    font-size: 0.9rem;
+
+    img {
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
+
+/* Стили для модального окна */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeInOverlay 0.3s ease-in-out;
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: map.get(map.get(v.$themes, "light"), "background");
+  padding: 25px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideInModal 0.3s ease-in-out;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  h2 {
+    margin: 0 0 15px 0;
+    font-size: 1.5rem;
+    color: map.get(map.get(v.$themes, "light"), "text");
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.6;
+    color: map.get(map.get(v.$themes, "light"), "text");
+    font-size: 1rem;
+  }
+
+  .rules-list {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .rule-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .example-box {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    font-size: 0.9rem;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border: 2px solid transparent;
+    border-radius: 4px;
+  }
+
+  .example-box.correct {
+    background-color: map.get(map.get(v.$themes, "light"), "correct");
+    border-color: map.get(map.get(v.$themes, "light"), "correct");
+    color: white;
+  }
+
+  .example-box.present {
+    background-color: map.get(map.get(v.$themes, "light"), "present");
+    border-color: map.get(map.get(v.$themes, "light"), "present");
+    color: white;
+  }
+
+  .example-box.absent {
+    background-color: map.get(map.get(v.$themes, "light"), "absent");
+    border-color: map.get(map.get(v.$themes, "light"), "absent");
+    color: white;
+  }
+
+  button {
+    padding: 10px 25px;
+    background-color: map.get(map.get(v.$themes, "light"), "enter-background");
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.1s;
+
+    &:hover {
+      background-color: map.get(map.get(v.$themes, "light"), "enter-hover");
+      transform: scale(1.05);
+    }
+  }
+
+  body.dark & {
+    background-color: map.get(map.get(v.$themes, "dark"), "background");
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    h2,
+    p {
+      color: map.get(map.get(v.$themes, "dark"), "text");
+    }
+
+    .example-box.correct {
+      background-color: map.get(map.get(v.$themes, "dark"), "correct");
+      border-color: map.get(map.get(v.$themes, "dark"), "correct");
+      color: white;
+    }
+
+    .example-box.present {
+      background-color: map.get(map.get(v.$themes, "dark"), "present");
+      border-color: map.get(map.get(v.$themes, "dark"), "present");
+      color: white;
+    }
+
+    .example-box.absent {
+      background-color: map.get(map.get(v.$themes, "dark"), "absent");
+      border-color: map.get(map.get(v.$themes, "dark"), "absent");
+      color: white;
+    }
+
+    button {
+      background-color: map.get(map.get(v.$themes, "dark"), "enter-background");
+
+      &:hover {
+        background-color: map.get(map.get(v.$themes, "dark"), "enter-hover");
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+@keyframes slideInModal {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
