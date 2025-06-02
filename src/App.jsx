@@ -82,25 +82,24 @@ function App() {
     if (savedGame) {
       try {
         const parsedSavedGame = JSON.parse(savedGame);
-        setGuesses(parsedSavedGame.guesses);
-        setSecretWord(parsedSavedGame.secretWord);
-        setCurrentGuess(parsedSavedGame.currentGuess);
-        setGameOver(parsedSavedGame.gameOver);
-        if (parsedSavedGame.gameOver) {
-          const lastGuessCount = parsedSavedGame.guesses.length;
-          const isWin =
-            parsedSavedGame.guesses[lastGuessCount - 1] ===
-            parsedSavedGame.secretWord;
-          updateStats(isWin, lastGuessCount);
+        setGuesses(parsedSavedGame.guesses || []);
+        setSecretWord(parsedSavedGame.secretWord || "");
+        setCurrentGuess(parsedSavedGame.currentGuess || "");
+        const savedGameOver = parsedSavedGame.gameOver || false;
+        setGameOver(savedGameOver);
+
+        // Проверяем, была ли игра завершена, и сбрасываем, если модалка не закрыта
+        if (savedGameOver && !localStorage.getItem("statsModalClosed")) {
+          startNewGame();
+        } else if (savedGameOver) {
+          setIsStatsOpen(true);
         }
       } catch (error) {
         console.error("Ошибка загрузки сохранённой игры:", error);
-        const randomIndex = Math.floor(Math.random() * WORDS.length);
-        setSecretWord(WORDS[randomIndex]);
+        startNewGame();
       }
     } else {
-      const randomIndex = Math.floor(Math.random() * WORDS.length);
-      setSecretWord(WORDS[randomIndex]);
+      startNewGame();
     }
   }, []);
 
@@ -115,6 +114,7 @@ function App() {
   useEffect(() => {
     if (gameOver) {
       setIsStatsOpen(true);
+      localStorage.setItem("statsModalOpened", "true");
     }
   }, [gameOver]);
 
@@ -171,11 +171,12 @@ function App() {
     setMessage("");
     setIsStatsOpen(false);
     localStorage.removeItem("wordleGame");
+    localStorage.removeItem("statsModalOpened");
   };
 
   function handleInput(key) {
     if (gameOver) return;
-    if (/^[а-яА-ЯёË]$/.test(key)) {
+    if (/^[а-яА-ЯёЁ]$/.test(key)) {
       if (currentGuess.length < 5) {
         setCurrentGuess((prev) => prev + key.toUpperCase());
       }
@@ -215,7 +216,11 @@ function App() {
       )}
       <StatsModal
         isOpen={isStatsOpen}
-        onClose={() => setIsStatsOpen(false)}
+        onClose={() => {
+          setIsStatsOpen(false);
+          localStorage.setItem("statsModalClosed", "true");
+          localStorage.removeItem("statsModalOpened");
+        }}
         stats={stats}
       />
       <RulesModal isOpen={isRulesOpen} onClose={() => setIsRulesOpen(false)} />
